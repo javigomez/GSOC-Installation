@@ -369,7 +369,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('jform', array());
+		$vars = JRequest::getVar('cid', array());
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
@@ -503,6 +503,84 @@ class InstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 		$app->close();
 	}
+
+	/**
+	 * Method to set the setup language for the application.
+	 *
+	 * @return  void
+	 * @since   3.0
+	 */
+	public function installLanguages()
+	{
+
+		// Check for request forgeries.
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+
+		// Get the application object.
+		$app = JFactory::getApplication();
+
+
+		// Get array of selected languages
+		$lids	= JRequest::getVar('cid', array(), '', 'array');
+		JArrayHelper::toInteger($lids, array());
+
+		// Get the setup model.
+		$model = $this->getModel('Languages', 'InstallationModel');
+
+		$return = false;
+		if (!$lids)
+		{
+			// No languages have been selected
+			$app->enqueueMessage(JText::_('no language selected'));
+		}
+		else
+		{
+			// Install selected languages
+			$return	= $model->install($lids);
+		}
+
+		$r = new JObject();
+		// Check for validation errors.
+		if ($return === false) {
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				} else {
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			// Redirect back to the language selection screen.
+			$r->view = 'language';
+			$this->sendResponse($r);
+			return false;
+		}
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	function setDefaultLanguage()
+	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+
+		// TODO: this function will have to set as default the choosen language in the defaultlanguage view
+
+		// Create a response body.
+		$r = new JObject();
+		$r->text = JText::_('sending to the complete screen');
+		$r->view = 'complete';
+
+		// Send the response.
+		$this->sendResponse($r);
+	}
+
 }
 
 /**
