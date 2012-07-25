@@ -250,4 +250,24 @@ class InstallationControllerSetup extends JControllerLegacy
 			$this->setRedirect('index.php?view=complete');
 		}
 	}
+
+	/**
+	 * @since	3.0
+	 */
+	function installLanguages()
+	{
+		// TODO: this function will have to install every selected language in the laguages view
+
+		$this->setRedirect('index.php?view=defaultlanguage');
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	function setDefaultLanguage()
+	{
+		// TODO: this function will have to set as default the choosen language in the defaultlanguage view
+
+		$this->setRedirect('index.php?view=complete');
+	}
 }
