@@ -105,18 +105,18 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Method that install selected languages in the Languages View ov the installer
 	 *
+	 * @param $lids array list of the update_id value of the languages to install
+	 *
 	 * @return  void
-
 	 *
 	 * @since	3.0
 	 */
-	public function install()
+	public function install($lids)
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		//	JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$lids = JRequest::getVar('cid', array(), '', 'array');
 
 		$app			= JFactory::getApplication();
 		$installer		= JInstaller::getInstance();
