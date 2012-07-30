@@ -38,6 +38,12 @@ class JHtmlInstallation
 			case 'remove':
 				$on = 7;
 				break;
+			case 'languages':
+				$on = 8;
+				break;
+			case 'defaultlanguage':
+				$on = 9;
+				break;
 			default:
 				$on = 1;
 		}
@@ -49,7 +55,9 @@ class JHtmlInstallation
 			'<div class="step'.($on == 4 ? ' active' : '').'" id="database">'.JText::_('INSTL_STEP_4_LABEL').'</div>' .
 			'<div class="step'.($on == 5 ? ' active' : '').'" id="filesystem">'.JText::_('INSTL_STEP_5_LABEL').'</div>' .
 			'<div class="step'.($on == 6 ? ' active' : '').'" id="site">'.JText::_('INSTL_STEP_6_LABEL').'</div>' .
-			'<div class="step'.($on == 7 ? ' active' : '').'" id="complete">'.JText::_('INSTL_STEP_7_LABEL').'</div>';
+			'<div class="step'.($on == 7 ? ' active' : '').'" id="complete">'.JText::_('INSTL_STEP_7_LABEL').'</div>' .
+			'<div class="step'.($on == 8 ? ' active' : '').'" id="languages">'.JText::_('8 : Install Languages').'</div>' .
+			'<div class="step'.($on == 9 ? ' active' : '').'" id="defaultlanguage">'.JText::_('9 : Choose default language').'</div>';
 			return $html;
 	}
 }
