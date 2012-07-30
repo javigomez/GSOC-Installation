@@ -64,26 +64,6 @@ defined('_JEXEC') or die;
 							<tr>
 								<td>&#160;</td>
 							</tr>
-							<tr>
-								<td class="notice">
-									<div id="cpanel">
-										<div>
-											<div class="icon">
-												<p>
-													<a href="http://community.joomla.org/translations/joomla-16-translations.html" target="_blank">
-													<b><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></b>
-													<br />
-													<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
-													</a>
-												</p>
-											</div>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>&#160;</td>
-							</tr>
 							<?php if ($this->config) : ?>
 							<tr>
 								<td class="small">
@@ -96,6 +76,34 @@ defined('_JEXEC') or die;
 								</td>
 							</tr>
 							<?php endif; ?>
+							<tr>
+								<td>&#160;</td>
+							</tr>
+							<tr>
+								<td class="notice">
+									<div id="cpanel">
+										<div>
+											<div class="icon">
+												<p>
+													<b><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></b>
+												</p>
+												<p>
+													<div class="button1-left">
+														<div class="next">
+															<a href="index.php?view=languages" onclick="return Install.goToPage('languages');" rel="prev" title="<?php echo JText::_('Install languages'); ?>"><?php echo JText::_('JNext'); ?></a>
+														</div>
+													</div>
+												</p>
+												<p>
+												<a href="http://community.joomla.org/translations/joomla-16-translations.html" target="_blank">
+													<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
+													</a>
+												</p>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
 						</table>
 					</fieldset>
 				</div>

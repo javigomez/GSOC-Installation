@@ -21,4 +21,30 @@ defined('_JEXEC') or die;
 </div>
 <div id="installer">
 	<p class="error remove"><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
+	<tr>
+		<td>&#160;</td>
+	</tr>
+
+			<div id="cpanel">
+				<div>
+					<div class="icon">
+						<p>
+							<b><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></b>
+						</p>
+						<p>
+						<div class="button1-left">
+							<div class="next">
+								<a href="index.php?view=languages" onclick="return Install.goToPage('languages');" rel="prev" title="<?php echo JText::_('Install languages'); ?>"><?php echo JText::_('JNext'); ?></a>
+							</div>
+						</div>
+						</p>
+						<p>
+							<a href="http://community.joomla.org/translations/joomla-16-translations.html" target="_blank">
+								<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+
 </div>
