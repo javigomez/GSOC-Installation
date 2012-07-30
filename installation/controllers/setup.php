@@ -248,4 +248,70 @@ class JInstallationControllerSetup extends JControllerLegacy
 			$this->setRedirect('index.php?view=complete');
 		}
 	}
+
+	/**
+	 * @since	3.0
+	 */
+	function installLanguages()
+	{
+
+		// Check for request forgeries.
+//		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+
+		// Get the application object.
+		$app = JFactory::getApplication();
+
+
+		// Get array of selected languages
+		$lids	= JRequest::getVar('cid', array(), '', 'array');
+		JArrayHelper::toInteger($lids, array());
+
+		// Get the setup model.
+		$model = $this->getModel('Languages', 'InstallationModel');
+
+		$return = false;
+		if (!$lids)
+		{
+			// No languages have been selected
+			$app->enqueueMessage(JText::_('no language selected'));
+		}
+		else
+		{
+			// Install selected languages
+			$return	= $model->install($lids);
+		}
+
+		$r = new JObject();
+		// Check for validation errors.
+		if ($return === false) {
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				} else {
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			// Redirect back to the language selection screen.
+			$r->view = 'language';
+			$this->sendResponse($r);
+			return false;
+		}
+		$this->setRedirect('index.php?view=defaultlanguage');
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	function setDefaultLanguage()
+	{
+		// TODO: this function will have to set as default the choosen language in the defaultlanguage view
+
+		$this->setRedirect('index.php?view=complete');
+	}
 }
