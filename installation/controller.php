@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @package		Joomla.Installation
@@ -52,8 +53,11 @@ class JInstallationController extends JControllerLegacy
 
 		if ($view = $this->getView($vName, $vFormat)) {
 
-			switch ($vName) {
-				default:
+			switch ($vName)
+			{
+				case 'languages':
+					$model = $this->getModel('Languages', 'InstallationModel', array('dbo' => null));
+					break;				default:
 					$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 					break;
 			}
