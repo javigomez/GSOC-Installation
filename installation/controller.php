@@ -56,7 +56,7 @@ class JInstallationController extends JControllerLegacy
 			switch ($vName)
 			{
 				case 'languages':
-					$model = $this->getModel('Languages', 'InstallationModel', array('dbo' => null));
+					$model = $this->getModel('Languages', 'JInstallationModel', array('dbo' => null));
 					break;				default:
 					$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 					break;

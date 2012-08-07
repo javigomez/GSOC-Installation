@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationModelLanguages extends JModelLegacy
+class JInstallationModelLanguages extends JModelLegacy
 {
 	public function __construct()
 	{

@@ -267,7 +267,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		JArrayHelper::toInteger($lids, array());
 
 		// Get the setup model.
-		$model = $this->getModel('Languages', 'InstallationModel');
+		$model = $this->getModel('Languages', 'JInstallationModel');
 
 		$return = false;
 		if (!$lids)

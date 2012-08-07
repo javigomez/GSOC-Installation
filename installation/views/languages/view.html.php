@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Installation
  * @since		1.6
  */
-class InstallationViewLanguages extends JViewLegacy
+class JInstallationViewLanguages extends JViewLegacy
 {
 	/**
 	 * Display the view
