@@ -16,12 +16,17 @@ defined('_JEXEC') or die;
 class JInstallationViewDefaultlanguage extends JViewLegacy
 {
 	/**
+	 * @var object item list of languages installed in the administrator
+	 */
+	public $items;
+
+	/**
 	 * Display the view
 	 *
 	 */
 	public function display($tpl = null)
 	{
-		$state = $this->get('State');
+		$items = $this->get('Installedlangs');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -29,7 +34,7 @@ class JInstallationViewDefaultlanguage extends JViewLegacy
 			return false;
 		}
 
-		$this->state = $state;
+		$this->items = $items;
 
 		parent::display($tpl);
 	}

@@ -256,7 +256,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	{
 
 		// Check for request forgeries.
-//		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -266,7 +266,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$lids	= JRequest::getVar('cid', array(), '', 'array');
 		JArrayHelper::toInteger($lids, array());
 
-		// Get the setup model.
+		// Get the languages model.
 		$model = $this->getModel('Languages', 'JInstallationModel');
 
 		$return = false;
@@ -306,12 +306,28 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @since	3.0
 	 */
 	function setDefaultLanguage()
 	{
-		// TODO: this function will have to set as default the choosen language in the defaultlanguage view
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$cid = JRequest::getCmd('cid', '');
 
-		$this->setRedirect('index.php?view=complete');
+		// Get the languages model.
+		$model = $this->getModel('Languages', 'JInstallationModel');
+
+		if ($model->setDefault($cid))
+		{
+			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+			$type = 'message';
+			$this->setRedirect('index.php?view=complete');
+		}
+		else
+		{
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirect('index.php?view=defaultlanguage');
+		}
+
 	}
 }

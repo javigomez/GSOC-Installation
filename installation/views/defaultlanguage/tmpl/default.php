@@ -35,47 +35,31 @@ defined('_JEXEC') or die;
 						<table class="content2">
 							<THEAD>
 								<tr>
-									<th width="10">
-										Install
+									<th width="5%">
+										Select
 									</th>
-									<th>
+									<th width="50%">
 										Language
+									</th>
+									<th width="45%">
+										Language Tag
 									</th>
 								</tr>
 							</THEAD>
 							<TBODY>
-							<tr>
-								<td>
-									<input type="radio" name="id" value="English" checked="true" />
-								</td>
-								<td>
-									English
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="radio" name="id" value="Spanish" />
-								</td>
-								<td>
-									Spanish
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="radio" name="id" value="Spanish" />
-								</td>
-								<td>
-									Others
-								</td>
-							<tr>
-								<td>
-									<input type="radio" name="id" value="Spanish" />
-								</td>
-								<td>
-									...
-								</td>
-							</tr>
-							</tr>
+								<?php foreach($this->items as $lang) : ?>
+								<tr>
+									<td>
+										<input type="radio" name="cid" value="English" checked="true" />
+									</td>
+									<td align="center">
+										<?php echo $lang->name; ?>
+									</td>
+									<td align="center">
+										<?php echo $lang->language; ?>
+									</td>
+								</tr>
+								<?php endforeach; ?>
 							</TBODY>
 						</table>
 					</div>

@@ -500,13 +500,13 @@ class JInstallationControllerSetup extends JControllerLegacy
 	 * Method to set the setup language for the application.
 	 *
 	 * @return  void
-	 * @since   3.0
+	 * @since   X.x.x
 	 */
 	public function installLanguages()
 	{
 
 		// Check for request forgeries.
-		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+//		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -516,8 +516,8 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$lids	= JRequest::getVar('cid', array(), '', 'array');
 		JArrayHelper::toInteger($lids, array());
 
-		// Get the setup model.
-		$model = $this->getModel('Languages', 'InstallationModel');
+		// Get the languages model.
+		$model = $this->getModel('Languages', 'JInstallationModel');
 
 		$return = false;
 		if (!$lids)
@@ -547,11 +547,21 @@ class JInstallationControllerSetup extends JControllerLegacy
 				}
 			}
 
+
 			// Redirect back to the language selection screen.
 			$r->view = 'language';
 			$this->sendResponse($r);
 			return false;
 		}
+
+		// Create a response body.
+		$r = new JObject();
+		$r->text = JText::_('I have installed all languages. Yeah');
+		$r->view = 'defaultlanguage';
+
+
+		// Send the response.
+		$this->sendResponse($r);
 	}
 
 	/**
@@ -560,13 +570,26 @@ class JInstallationControllerSetup extends JControllerLegacy
 	function setDefaultLanguage()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+	//	JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// TODO: this function will have to set as default the choosen language in the defaultlanguage view
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		$cid = JRequest::getCmd('cid', '');
+
+		// Get the languages model.
+		$model = $this->getModel('Languages', 'JInstallationModel');
+
+		$r = new JObject();
+
+		if (!$model->setDefault($cid))
+		{
+			// Create a response body.
+			$r->text = JText::_('I had problems setting the default lang');
+			$r->view = 'complete';
+		}
 
 		// Create a response body.
-		$r = new JObject();
-		$r->text = JText::_('sending to the complete screen');
+		$r->text = JText::_('I have set the default lang');
 		$r->view = 'complete';
 
 		// Send the response.

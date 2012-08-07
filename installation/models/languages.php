@@ -13,13 +13,36 @@ defined('_JEXEC') or die;
  * Language Installer model for the Joomla Core Installer.
  *
  * @package  Joomla.Installation
- * @since    3.0
+ * @since    X.x.x
  */
 class JInstallationModelLanguages extends JModelLegacy
 {
+
+	/**
+	 * @var object client object
+	 */
+	protected $client = null;
+
+	/**
+	 * @var array languages description
+	 */
+	protected $data = null;
+
+	/**
+	 * @var string language path
+	 */
+	protected $path = null;
+
+	/**
+	 * @var int total number pf languages installed
+	 */
+	protected $langlist = null;
+
+	/**
+ 	 * Constructor, deletes the default installation config file and recreates it with the good config file
+	 */
 	public function __construct()
 	{
-		// Deletes the default installation config file and recreates it with the good config file
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
 		parent::__construct();
@@ -29,52 +52,9 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Generate a list of language choices to install in the Joomla CMS
 	 *
 	 * @return	boolean True if successful
-	 *
-	 * @since	3.0
 	 */
 	public function getItems()
 	{
-		// Initialise variables.
-//		$app = JFactory::getApplication();
-
-		/*
-		  // Detect the native language.
-		  $native = JLanguageHelper::detectLanguage();
-
-		  if (empty($native))
-		  {
-			  $native = 'en-GB';
-		  }
-		  // Get a forced language if it exists.
-		  $forced = $app->getLocalise();
-
-		  if (!empty($forced['language']))
-		  {
-			  $native = $forced['language'];
-		  }
-
-		// Get the setup options
-		$options = (object) $this->getOptions();
-		// Get a database object.
-		try
-		{
-			$db = InstallationHelperDatabase::getDBO(
-				$options->db_type,
-				$options->db_host,
-				$options->db_user,
-				$options->db_pass,
-				$options->db_name,
-				$options->db_prefix);
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()));
-		}
-
-		// Set's the database to JFactory that is used by the Updater and all the Adapters
-		JFactory::$database = $db;
-  */
-
 		$updater = JUpdater::getInstance();
 
 		/*
@@ -108,8 +88,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * @param $lids array list of the update_id value of the languages to install
 	 *
 	 * @return  void
-	 *
-	 * @since	3.0
 	 */
 	public function install($lids)
 	{
@@ -232,5 +210,161 @@ class JInstallationModelLanguages extends JModelLegacy
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
+	}
+
+	/**
+	 * Method to get Languages item data
+	 *
+	 * @return	array
+	 * @since	1.6
+	 */
+	public function getInstalledlangs()
+	{
+		$langlist   = $this->_getLanguageList();
+		$path		= $this->_getPath();
+
+		// Compute all the languages
+		$data	= array ();
+
+		foreach($langlist as $lang)
+		{
+			$file = $path . '/' . $lang . '/' . $lang.'.xml';
+			$info = JApplicationHelper::parseXMLLangMetaFile($file);
+			$row = new stdClass;
+			$row->language = $lang;
+
+			if (!is_array($info)) {
+				continue;
+			}
+
+			foreach($info as $key => $value)
+			{
+				$row->$key = $value;
+			}
+
+			$row->checked_out = 0;
+			$data[] = $row;
+		}
+
+		usort($data, array($this, '_compareLanguages'));
+
+		return $data;
+	}
+
+	/**
+	 * Method to get installed languages data.
+	 *
+	 * @return	string	An SQL query
+	 * @since	2.5.x
+	 */
+	protected function _getLanguageList()
+	{
+		// Create a new db object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		// Select field element from the extensions table.
+		$query->select('a.element, a.name');
+		$query->from('#__extensions AS a');
+
+		$query->where('a.type = ' . $db->quote('language'));
+		$query->where('state = 0');
+		$query->where('enabled = 1');
+		$query->where('client_id = 1');
+
+		$db->setQuery($query);
+
+		$this->langlist = $db->loadColumn();
+
+		return $this->langlist;
+	}
+
+	/**
+	 * Method to compare two languages in order to sort them
+	 *
+	 * @param	object	$lang1 the first language
+	 * @param	object	$lang2 the second language
+	 *
+	 * @return	integer
+	 * @since	1.6
+	 */
+	protected function _compareLanguages($lang1, $lang2)
+	{
+		return strcmp($lang1->name, $lang2->name);
+	}
+
+
+	/**
+	 * Method to get the path
+	 *
+	 * @return	string	The path to the languages folders
+	 * @since	1.6
+	 */
+	protected function _getPath()
+	{
+		if (is_null($this->path)) {
+			$client = $this->_getClient();
+			$this->path = JLanguage::getLanguagePath($client->path);
+		}
+
+		return $this->path;
+	}
+
+	/**
+	 * Method to get the client object of Administrator
+	 *
+	 * @return	object
+	 * @since	1.6
+	 */
+	protected function _getClient()
+	{
+		if (is_null($this->client)) {
+			$this->client = JApplicationHelper::getClientInfo(1);
+		}
+
+		return $this->client;
+	}
+
+	/**
+	 * Method to set the default language
+	 *
+	 * @return	boolean
+	 * @since	X.x.x
+	 */
+	public function setDefault($language_id = null)
+	{
+		if ($language_id)
+		{
+			return false;
+		}
+
+		$client	= $this->_getClient();
+
+		$params = JComponentHelper::getParams('com_languages');
+		$params->set($client->name, $cid);
+
+		$table = JTable::getInstance('extension');
+		$id = $table->find(array('element' => 'com_languages'));
+
+		// Load
+		if (!$table->load($id)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$table->params = (string)$params;
+		// pre-save checks
+		if (!$table->check()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// save the changes
+		if (!$table->store()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+
 	}
 }
