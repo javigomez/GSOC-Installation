@@ -523,7 +523,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('no language selected'));
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
 		}
 		else
 		{
@@ -556,7 +556,6 @@ class JInstallationControllerSetup extends JControllerLegacy
 
 		// Create a response body.
 		$r = new JObject();
-		$r->text = JText::_('I have installed all languages. Yeah');
 		$r->view = 'defaultlanguage';
 
 
@@ -586,12 +585,11 @@ class JInstallationControllerSetup extends JControllerLegacy
 		if (!$model->setDefault($cid))
 		{
 			// Create a response body.
-			$r->text = JText::_('I had problems setting the default lang');
+			$r->text = JText::_('INSTL_DEFAULTLANGUAGE_COULDNT_SET_DEFAULT');
 			$r->view = 'complete';
 		}
 
 		// Create a response body.
-		$r->text = JText::_('I have set the default lang');
 		$r->view = 'complete';
 
 		// Send the response.

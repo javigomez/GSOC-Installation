@@ -276,7 +276,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('no language selected'));
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
 		}
 		else
 		{
@@ -315,6 +315,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	 */
 	function setDefaultLanguage()
 	{
+
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$cid = JRequest::getCmd('cid', '');
@@ -322,18 +323,18 @@ class JInstallationControllerSetup extends JControllerLegacy
 		// Get the languages model.
 		$model = $this->getModel('Languages', 'JInstallationModel');
 
-		if ($model->setDefault($cid))
+		if (!$model->setDefault($cid))
 		{
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
-			$this->setRedirect('index.php?view=complete');
-		}
-		else
-		{
-			$msg = $this->getError();
-			$type = 'error';
+
+			// Get the application object.
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($msg, 'warning');
+
 			$this->setRedirect('index.php?view=defaultlanguage');
 		}
+
+		$this->setRedirect('index.php?view=complete');
 
 	}
 }
