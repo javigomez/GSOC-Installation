@@ -4,6 +4,8 @@
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @since	2.5.x
  */
 
 defined('_JEXEC') or die;
@@ -13,7 +15,6 @@ defined('_JEXEC') or die;
  * Language Installer model for the Joomla Core Installer.
  *
  * @package  Joomla.Installation
- * @since    X.x.x
  */
 class JInstallationModelLanguages extends JModelLegacy
 {
@@ -39,7 +40,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	protected $langlist = null;
 
 	/**
- 	 * Constructor, deletes the default installation config file and recreates it with the good config file
+ 	 * Constructor, deletes the default installation config file and recreates it with the good config file.
 	 */
 	public function __construct()
 	{
@@ -94,58 +95,64 @@ class JInstallationModelLanguages extends JModelLegacy
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		//	JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// Get the posted config options.
-
 		$app			= JFactory::getApplication();
 		$installer		= JInstaller::getInstance();
 
 		// Loop through every selected language
 		foreach ($lids as $id)
 		{
+			// Loads the update database object that represents the language
+			$language = JTable::getInstance('update');
+			$language->load($id);
 
-		// Get the url to the XML manifest file of the selected language
-		$remote_manifest 	= $this->_getLanguageManifest($id);
-		if (!$remote_manifest)
-		{
-		// Could not find the url, the information in the update server may be corrupt
-		$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST') . ': ' . $id);
-		continue;
-		}
+			// Get the url to the XML manifest file of the selected language
+			$remote_manifest 	= $this->_getLanguageManifest($id);
+			if (!$remote_manifest)
+			{
+				// Could not find the url, the information in the update server may be corrupt
+				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
+				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$app->enqueueMessage($message);
+				continue;
+			}
 
-		// Based on the language XML manifest get the url of the package to download
-		$package_url 		= $this->_getPackageUrl($remote_manifest);
-		if (!$package_url)
-		{
-		// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
-		$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE') . ': ' . $id);
-		continue;
-		}
+			// Based on the language XML manifest get the url of the package to download
+			$package_url 		= $this->_getPackageUrl($remote_manifest);
+			if (!$package_url)
+			{
+				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
+				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
+				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$app->enqueueMessage($message);
+				continue;
+			}
 
-		// Download the package to the tmp folder
-		$package 			= $this->_downloadPackage($package_url);
+			// Download the package to the tmp folder
+			$package 			= $this->_downloadPackage($package_url);
 
-		// Install the package
-		if (!$installer->install($package['dir']))
-		{
-		// There was an error installing the package
-		$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))));
-		continue;
-		}
+			// Install the package
+			if (!$installer->install($package['dir']))
+			{
+				// There was an error installing the package
+				$message 	= JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
+				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$app->enqueueMessage($message);
+				continue;
+			}
 
-		// Package installed successfully
-		$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))));
+			// Package installed successfully
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
 
-		// Cleanup the install files in tmp folder
-		if (!is_file($package['packagefile']))
-		{
-		$config = JFactory::getConfig();
-		$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
-		}
-		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			// Cleanup the install files in tmp folder
+			if (!is_file($package['packagefile']))
+			{
+				$config = JFactory::getConfig();
+				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+			}
+			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
-		// Delete the installed language from the list
-		$instance = JTable::getInstance('update');
-		$instance->delete($id);
+			// Delete the installed language from the list
+			$language->delete($id);
 		}
 
 	}
@@ -172,7 +179,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	 *
 	 * @return string|bool
 	 */
-	protected function _getPackageUrl( $remote_manifest )
+	protected function _getPackageUrl($remote_manifest)
 	{
 		jimport('joomla.updater.update');
 
@@ -186,7 +193,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	/**
 	 * Download a language package from a URL and unpack it in the tmp folder.
 	 *
-	 * @param   string  $url  hola
+	 * @param   string  $url  url of the package
 	 *
 	 * @return array|bool Package details or false on failure
 	 */
@@ -216,7 +223,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Method to get Languages item data
 	 *
 	 * @return	array
-	 * @since	1.6
 	 */
 	public function getInstalledlangs()
 	{
@@ -255,7 +261,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Method to get installed languages data.
 	 *
 	 * @return	string	An SQL query
-	 * @since	2.5.x
 	 */
 	protected function _getLanguageList()
 	{
@@ -285,7 +290,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * @param	object	$lang2 the second language
 	 *
 	 * @return	integer
-	 * @since	1.6
 	 */
 	protected function _compareLanguages($lang1, $lang2)
 	{
@@ -297,7 +301,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Method to get the path
 	 *
 	 * @return	string	The path to the languages folders
-	 * @since	1.6
 	 */
 	protected function _getPath()
 	{
@@ -313,7 +316,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Method to get the client object of Administrator
 	 *
 	 * @return	object
-	 * @since	1.6
 	 */
 	protected function _getClient()
 	{
@@ -325,10 +327,11 @@ class JInstallationModelLanguages extends JModelLegacy
 	}
 
 	/**
-	 * Method to set the default language
+	 * Method to set the default language.
 	 *
-	 * @return	boolean
-	 * @since	X.x.x
+	 * @param int $language_id
+	 *
+	 * @return	bool
 	 */
 	public function setDefault($language_id = null)
 	{
@@ -340,7 +343,7 @@ class JInstallationModelLanguages extends JModelLegacy
 		$client	= $this->_getClient();
 
 		$params = JComponentHelper::getParams('com_languages');
-		$params->set($client->name, $cid);
+		$params->set($client->name, $language_id);
 
 		$table = JTable::getInstance('extension');
 		$id = $table->find(array('element' => 'com_languages'));
@@ -372,7 +375,6 @@ class JInstallationModelLanguages extends JModelLegacy
 	 * Get the current setup options from the session.
 	 *
 	 * @return	array
-	 * @since	1.6
 	 */
 	public function getOptions()
 	{

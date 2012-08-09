@@ -497,7 +497,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * Method to set the setup language for the application.
+	 * Method to install languages to Joomla application.
 	 *
 	 * @return  void
 	 * @since   X.x.x
@@ -565,7 +565,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @since	3.0
+	 * Set the choosen language as the main language to the Joomla! administrator
+	 *
+	 * @since	X.x.x
 	 */
 	function setDefaultLanguage()
 	{
