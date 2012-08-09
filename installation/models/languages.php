@@ -367,4 +367,18 @@ class JInstallationModelLanguages extends JModelLegacy
 		return true;
 
 	}
+
+	/**
+	 * Get the current setup options from the session.
+	 *
+	 * @return	array
+	 * @since	1.6
+	 */
+	public function getOptions()
+	{
+		$session = JFactory::getSession();
+		$options = $session->get('setup.options', array());
+
+		return $options;
+	}
 }
