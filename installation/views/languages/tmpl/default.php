@@ -44,6 +44,12 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="install-body">
 				<div class="m">
+					<?php if(!$this->items) : ?>
+						<p style="text-align: center;" class="error"><?php echo JText::_('Joomla! was not able to connect to the languages server. Please finish the installation process. <br/>Note: You will be able to install languages later using the Joomla! administrator') ?></p>
+						<p style="text-align: center;">
+							<input class="button" type="button" name="instDefault" value="<?php echo JText::_('Return to last installation step'); ?>" onclick="return Install.goToPage('complete');"/>
+						</p>
+					<?php else : ?>
 					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
 						Choose languages
 					</h4>
@@ -60,19 +66,20 @@ defined('_JEXEC') or die;
 								</tr>
 							</THEAD>
 							<TBODY>
-							<?php foreach($this->items as $lang) : ?>
-							<tr>
-								<td>
-									<input type="checkbox" id="cb1" name="cid[]" value="<?php echo $lang->update_id; ?>" />
-								</td>
-								<td>
-									<?php echo $lang->name; ?>
-								</td>
-							</tr>
-							<?php endforeach; ?>
+								<?php foreach($this->items as $lang) : ?>
+								<tr>
+									<td>
+										<input type="checkbox" id="cb1" name="cid[]" value="<?php echo $lang->update_id; ?>" />
+									</td>
+									<td>
+										<?php echo $lang->name; ?>
+									</td>
+								</tr>
+								<?php endforeach; ?>
 							</TBODY>
 						</table>
 					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="clr"></div>
