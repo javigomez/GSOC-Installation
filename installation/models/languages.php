@@ -110,8 +110,8 @@ class JInstallationModelLanguages extends JModelLegacy
 			if (!$remote_manifest)
 			{
 				// Could not find the url, the information in the update server may be corrupt
-				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_INSTALL_FAIL', $language->name);
-				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
+				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -121,8 +121,8 @@ class JInstallationModelLanguages extends JModelLegacy
 			if (!$package_url)
 			{
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
-				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
-				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
+				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -134,14 +134,14 @@ class JInstallationModelLanguages extends JModelLegacy
 			if (!$installer->install($package['dir']))
 			{
 				// There was an error installing the package
-				$message 	= JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
 			// Package installed successfully
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
+			//$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
 
 			// Cleanup the install files in tmp folder
 			if (!is_file($package['packagefile']))

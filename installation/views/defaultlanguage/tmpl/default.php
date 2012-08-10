@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 			<div class="install-body">
 				<div class="m">
 					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-						Choose languages
+						<?php echo JText::_('INSTL_DEFAULTLANGUAGE_HEADER'); ?>
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 								<?php foreach($this->items as $lang) : ?>
 								<tr>
 									<td>
-										<input type="radio" name="cid" value="English" checked="true" />
+										<input type="radio" name="lang" value="<?php echo $lang->language; ?>" />
 									</td>
 									<td align="center">
 										<?php echo $lang->name; ?>
