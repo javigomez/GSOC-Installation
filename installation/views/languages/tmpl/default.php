@@ -55,24 +55,12 @@ defined('_JEXEC') or die;
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">
-							<THEAD>
-								<tr>
-									<th width="10">
-										Install
-									</th>
-									<th>
-										Language
-									</th>
-								</tr>
-							</THEAD>
 							<TBODY>
-								<?php foreach($this->items as $lang) : ?>
+								<?php foreach($this->items as $i => $lang) : ?>
 								<tr>
 									<td>
-										<input type="checkbox" id="cb1" name="cid[]" value="<?php echo $lang->update_id; ?>" />
-									</td>
-									<td>
-										<?php echo $lang->name; ?>
+										<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $lang->update_id; ?>" />
+										<label for="<?php echo "cb$i" ?>"><?php echo $lang->name; ?></label>
 									</td>
 								</tr>
 								<?php endforeach; ?>
