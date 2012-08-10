@@ -549,7 +549,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 
 
 			// Redirect back to the language selection screen.
-			$r->view = 'language';
+			$r->view = 'languages';
 			$this->sendResponse($r);
 			return false;
 		}

@@ -301,9 +301,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 			}
 
 			// Redirect back to the language selection screen.
-			$r->view = 'language';
-			$this->sendResponse($r);
-			return false;
+			$this->setRedirect('index.php?view=languages');
 		}
 		$this->setRedirect('index.php?view=defaultlanguage');
 	}
