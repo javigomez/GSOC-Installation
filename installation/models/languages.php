@@ -110,8 +110,8 @@ class JInstallationModelLanguages extends JModelLegacy
 			if (!$remote_manifest)
 			{
 				// Could not find the url, the information in the update server may be corrupt
-				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_INSTALL_FAIL', $language->name);
+				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -122,7 +122,7 @@ class JInstallationModelLanguages extends JModelLegacy
 			{
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
 				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
