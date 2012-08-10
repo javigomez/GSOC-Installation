@@ -575,25 +575,34 @@ class JInstallationControllerSetup extends JControllerLegacy
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$cid = JRequest::getCmd('cid', '');
+		$lang = JRequest::getWord('lang', false);
+
+		// check that is an Lang ISO Code avoiding any injection.
+		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $lang))
+		{
+			$lang = 'en-GB';
+		}
 
 		// Get the languages model.
 		$model = $this->getModel('Languages', 'JInstallationModel');
 
 		$r = new JObject();
 
-		if (!$model->setDefault($cid))
+		if (!$model->setDefault($lang))
 		{
 			// Create a response body.
 			$r->text = JText::_('INSTL_DEFAULTLANGUAGE_COULDNT_SET_DEFAULT');
 			$r->view = 'complete';
-		}
+
+			// Send the response.
+			$this->sendResponse($r);		}
 
 		// Create a response body.
 		$r->view = 'complete';
 
 		// Send the response.
 		$this->sendResponse($r);
+
 	}
 
 }
