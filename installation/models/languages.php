@@ -226,8 +226,10 @@ class JInstallationModelLanguages extends JModelLegacy
 	 */
 	public function getInstalledlangs()
 	{
-		$langlist   = $this->_getLanguageList();
+		// Get information
 		$path		= $this->_getPath();
+		$client		= $this->_getClient();
+		$langlist   = $this->_getLanguageList();
 
 		// Compute all the languages
 		$data	= array ();
@@ -247,6 +249,16 @@ class JInstallationModelLanguages extends JModelLegacy
 			{
 				$row->$key = $value;
 			}
+
+			// if current than set published
+			$params = JComponentHelper::getParams('com_languages');
+			if ($params->get($client->name, 'en-GB') == $row->language) {
+				$row->published	= 1;
+			}
+			else {
+				$row->published = 0;
+			}
+
 
 			$row->checked_out = 0;
 			$data[] = $row;

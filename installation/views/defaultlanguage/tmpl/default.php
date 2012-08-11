@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 								<?php foreach($this->items as $lang) : ?>
 								<tr>
 									<td>
-										<input type="radio" name="lang" value="<?php echo $lang->language; ?>" />
+										<input type="radio" name="lang" value="<?php echo $lang->language; ?>" <?php if ($lang->published) echo 'checked="checked"'; ?>/>
 									</td>
 									<td align="center">
 										<?php echo $lang->name; ?>
