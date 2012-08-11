@@ -17,19 +17,19 @@ defined('_JEXEC') or die;
 		<div class="button1-left"><div class="next"><a href="index.php?view=languages" onclick="return Install.goToPage('languages');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 		<?php endif; ?>
 	</div>
-	<h2><?php echo JText::_('Choose the default language'); ?></h2>
+	<h2><?php echo JText::_('INSTL_DEFAULTLANGUAGE'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h3><?php echo JText::_('Language for the administrator'); ?></h3>
+			<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_HEADER'); ?></h3>
 			<div class="install-text">
-				<?php echo JText::_('Joomla was able to install the listed langauges, if you want you can choose the admin language... lorem ipsum'); ?>
+				<?php echo JText::_('INSTL_DEFAULTLANGUAGE_DESC'); ?>
 			</div>
 			<div class="install-body">
 				<div class="m">
 					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-						<?php echo JText::_('INSTL_DEFAULTLANGUAGE_HEADER'); ?>
+						<?php echo JText::_('INSTL_DEFAULTLANGUAGE_TABLE_HEADER'); ?>
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">
