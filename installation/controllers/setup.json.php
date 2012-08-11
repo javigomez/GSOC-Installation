@@ -574,8 +574,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	//	JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$lang = JRequest::getWord('lang', false);
+		$lang = JRequest::getString('lang', false);
 
 		// check that is an Lang ISO Code avoiding any injection.
 		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $lang))
@@ -595,7 +594,8 @@ class JInstallationControllerSetup extends JControllerLegacy
 			$r->view = 'complete';
 
 			// Send the response.
-			$this->sendResponse($r);		}
+			$this->sendResponse($r);
+		}
 
 		// Create a response body.
 		$r->view = 'complete';

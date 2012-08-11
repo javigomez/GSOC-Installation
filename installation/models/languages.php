@@ -335,7 +335,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	 */
 	public function setDefault($language_id = null)
 	{
-		if ($language_id)
+		if (!$language_id)
 		{
 			return false;
 		}
