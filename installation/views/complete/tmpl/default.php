@@ -64,6 +64,9 @@ defined('_JEXEC') or die;
 							<tr>
 								<td>&#160;</td>
 							</tr>
+							<tr>
+								<td>&#160;</td>
+							</tr>
 							<?php if ($this->config) : ?>
 							<tr>
 								<td class="small">
@@ -75,10 +78,7 @@ defined('_JEXEC') or die;
 									<textarea rows="5" cols="49" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
 								</td>
 							</tr>
-							<?php endif; ?>
-							<tr>
-								<td>&#160;</td>
-							</tr>
+							<?php else: ?>
 							<tr>
 								<td class="notice">
 									<div id="cpanel">
@@ -86,24 +86,20 @@ defined('_JEXEC') or die;
 											<div class="icon">
 												<p>
 													<b><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></b>
-												</p>
-												<p>
-													<div class="button1-left">
-														<div class="next">
-															<a href="index.php?view=languages" onclick="return Install.goToPage('languages');" rel="prev" title="<?php echo JText::_('Install languages'); ?>"><?php echo JText::_('JNext'); ?></a>
-														</div>
-													</div>
-												</p>
-												<p>
-												<a href="http://community.joomla.org/translations/joomla-16-translations.html" target="_blank">
-													<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
-													</a>
+													<br />
+													<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?>
 												</p>
 											</div>
 										</div>
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<input class="button" type="button" name="instLangs" value="<?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?>" onclick="return Install.goToPage('languages');" />
+								</td>
+							</tr>
+							<?php endif; ?>
 						</table>
 					</fieldset>
 				</div>
