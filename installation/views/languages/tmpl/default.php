@@ -15,23 +15,28 @@ defined('_JEXEC') or die;
 				<a href="index.php?view=complete" onclick="return Install.goToPage('complete');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a>
 			</div>
 		</div>
+
+		<?php if($this->items) : ?>
 		<div class="button1-left">
 			<div class="next">
 				<a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a>
 			</div>
 		</div>
+		<?php endif; ?>
 	<?php elseif ($this->document->direction == 'rtl') : ?>
 		<div class="button1-right">
 			<div class="prev">
 				<a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a>
 			</div>
 		</div>
+		<?php if($this->items) : ?>
 		<div class="button1-left">
 			<div class="next">
 				<a href="index.php?view=complete" onclick="return Install.goToPage('complete');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a>
 			</div>
 		</div>
 		<?php endif; ?>
+	<?php endif; ?>
 	</div>
 	<h2>Install languages</h2>
 </div>
