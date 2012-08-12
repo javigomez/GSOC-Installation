@@ -238,13 +238,14 @@ var Installation = new Class({
 	 * Method to remove the installation Folder after a successful installation.
  	 */
 	removeFolder: function(el) {
-		el = document.id(el);
+        document.id('instLangs').set('disabled','disabled');
+        el = document.id(el);
 		var req = new Request.JSON({
 			method: 'get',
 			url: 'index.php?'+document.id(el.form).toQueryString(),
 			data: {'task':'setup.removeFolder', 'format':'json'},
 			onRequest: function() {
-				el.set('disabled', 'disabled');
+                el.set('disabled', 'disabled');
 				document.id('theDefaultError').setStyle('display','none');
 			},
 			onComplete: function(r) {
@@ -254,7 +255,7 @@ var Installation = new Class({
 						el.set('value', r.data.text);
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
-					} else {
+                    } else {
 						document.id('theDefaultError').setStyle('display','block');
 						document.id('theDefaultErrorMessage').set('html', r.message);
 						el.set('disabled', '');
