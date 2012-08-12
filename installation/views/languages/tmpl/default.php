@@ -38,25 +38,25 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 	<?php endif; ?>
 	</div>
-	<h2>Install languages</h2>
+	<h2><?php echo JText::_('INSTL_LANGUAGES'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h3>Joomla in multiple languages</h3>
+			<h3><?php echo JText::_('INSTL_LANGUAGES_HEADER'); ?></h3>
 			<div class="install-text">
-				Joomla allows you to create multilingual sites if you want. At the same time your users can choose the language of their session... lorem ipsum
+				<?php echo JText::_('INSTL_LANGUAGES_DESC'); ?>
 			</div>
 			<div class="install-body">
 				<div class="m">
 					<?php if(!$this->items) : ?>
-						<p style="text-align: center;" class="error"><?php echo JText::_('Joomla! was not able to connect to the languages server. Please finish the installation process. <br/>Note: You will be able to install languages later using the Joomla! administrator') ?></p>
+						<p style="text-align: center;" class="error"><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
 						<p style="text-align: center;">
-							<input class="button" type="button" name="instDefault" value="<?php echo JText::_('Return to last installation step'); ?>" onclick="return Install.goToPage('complete');"/>
+							<input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>" onclick="return Install.goToPage('complete');"/>
 						</p>
 					<?php else : ?>
 					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-						Choose languages
+						<?php echo JText::_('INSTL_LANGUAGES_TABLE_HEADER'); ?>
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">

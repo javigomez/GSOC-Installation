@@ -96,7 +96,7 @@ defined('_JEXEC') or die;
 							</tr>
 							<tr>
 								<td>
-									<input class="button" type="button" name="instLangs" value="<?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?>" onclick="return Install.goToPage('languages');" />
+									<input class="button" type="button" name="instLangs" id="instLangs" value="<?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?>" onclick="return Install.goToPage('languages');" />
 								</td>
 							</tr>
 							<?php endif; ?>
