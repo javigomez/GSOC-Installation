@@ -259,7 +259,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	{
 
 		// Check for request forgeries.
-		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -315,7 +315,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	{
 
 		// Check for request forgeries
-//		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$lang = JRequest::getString('lang', false);
 
 		// check that is an Lang ISO Code avoiding any injection.
