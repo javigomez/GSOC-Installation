@@ -33,29 +33,29 @@ defined('_JEXEC') or die;
 		</div>
 		<?php endif; ?>
 	</div>
-	<h2>Install languages</h2>
+	<h2><?php echo JText::_('INSTL_LANGUAGES'); ?></h2>
 </div>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
-			<h3>Joomla in multiple languages</h3>
+			<h3><?php echo JText::_('INSTL_LANGUAGES_TITLE'); ?></h3>
 			<div class="install-text">
-				Joomla allows you to create multilingual sites if you want. At the same time your users can choose the language of their session... lorem ipsum
+				<?php echo JText::_('INSTL_LANGUAGES_DESCRIPTION'); ?>			
 			</div>
 			<div class="install-body">
 				<div class="m">
 					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-						Choose languages
+						<?php echo JText::_('INSTL_LANGUAGES_SELECT'); ?>
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">
 							<THEAD>
 								<tr>
 									<th width="10">
-										Install
+										<?php echo JText::_('INSTL_LANGUAGES_INSTALL'); ?>
 									</th>
 									<th>
-										Language
+										<?php echo JText::_('INSTL_LANGUAGES_LANGUAGE'); ?>
 									</th>
 								</tr>
 							</THEAD>
