@@ -6,6 +6,8 @@
  */
 
 defined('_JEXEC') or die;
+// Get version of Joomla! to compare it with the version of the language package
+$ver = new JVersion;
 ?>
 <div id="step">
 	<div class="far-right">
@@ -55,19 +57,37 @@ defined('_JEXEC') or die;
 							<input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>" onclick="return Install.goToPage('complete');"/>
 						</p>
 					<?php else : ?>
-					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
+					<h4 class="title-smenu">
 						<?php echo JText::_('INSTL_LANGUAGES_TABLE_HEADER'); ?>
 					</h4>
 					<div class="section-smenu">
 						<table class="content2">
+							<THEAD>
+									<tr>
+										<th>
+											<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
+										</th>
+										<th>
+											<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
+										</th>
+									</tr>
+							</THEAD>
 							<TBODY>
-								<?php foreach($this->items as $i => $lang) : ?>
-								<tr>
-									<td>
-										<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $lang->update_id; ?>" />
-										<label for="<?php echo "cb$i" ?>"><?php echo $lang->name; ?></label>
-									</td>
-								</tr>
+								<?php foreach($this->items as $i => $language) : ?>
+
+									<?php
+									// Checks that the language package is valid for current Joomla version
+									if(substr($language->version, 0, 3) == $ver->RELEASE) : ?>
+									<tr>
+										<td>
+											<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>" />
+											<label for="<?php echo "cb$i" ?>"><?php echo $language->name; ?></label>
+										</td>
+										<td>
+											<?php echo $language->version; ?>
+										</td>
+									</tr>
+									<?php endif; ?>
 								<?php endforeach; ?>
 							</TBODY>
 						</table>
