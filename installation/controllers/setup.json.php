@@ -506,7 +506,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	{
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-//		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('post') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -571,7 +571,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	function setDefaultLanguage()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-//		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('post') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Check for request forgeries
 		$lang = JRequest::getString('lang', false);
