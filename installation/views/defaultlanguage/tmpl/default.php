@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="install-body">
 				<div class="m">
-					<h4 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
+					<h4 class="title-smenu">
 						<?php echo JText::_('INSTL_DEFAULTLANGUAGE_TABLE_HEADER'); ?>
 					</h4>
 					<div class="section-smenu">
