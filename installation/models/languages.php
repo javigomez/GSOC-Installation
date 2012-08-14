@@ -88,7 +88,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	 *
 	 * @param $lids array list of the update_id value of the languages to install
 	 *
-	 * @return  void
+	 * @return  boolean True if successful
 	 */
 	public function install($lids)
 	{
@@ -154,6 +154,7 @@ class JInstallationModelLanguages extends JModelLegacy
 			// Delete the installed language from the list
 			$language->delete($id);
 		}
+		return true;
 
 	}
 
