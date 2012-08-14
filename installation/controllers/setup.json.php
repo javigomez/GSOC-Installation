@@ -555,7 +555,6 @@ class JInstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Create a response body.
-		$r = new JObject();
 		$r->view = 'defaultlanguage';
 
 
