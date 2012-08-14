@@ -56,8 +56,8 @@ class JHtmlInstallation
 			'<div class="step'.($on == 5 ? ' active' : '').'" id="filesystem">'.JText::_('INSTL_STEP_5_LABEL').'</div>' .
 			'<div class="step'.($on == 6 ? ' active' : '').'" id="site">'.JText::_('INSTL_STEP_6_LABEL').'</div>' .
 			'<div class="step'.($on == 7 ? ' active' : '').'" id="complete">'.JText::_('INSTL_STEP_7_LABEL').'</div>' .
-			'<div class="step'.($on == 8 ? ' active' : '').'" id="languages">'.JText::_('8 : Install Languages').'</div>' .
-			'<div class="step'.($on == 9 ? ' active' : '').'" id="defaultlanguage">'.JText::_('9 : Choose default language').'</div>';
+			'<div class="step'.($on == 8 ? ' active' : '').'" id="languages">'.JText::_('INSTL_STEP_8_LABEL').'</div>' .
+			'<div class="step'.($on == 9 ? ' active' : '').'" id="defaultlanguage">'.JText::_('INSTL_STEP_9_LABEL').'</div>';
 			return $html;
 	}
 }
