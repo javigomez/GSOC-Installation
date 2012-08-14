@@ -84,7 +84,7 @@ class JInstallationModelLanguages extends JModelLegacy
 	}
 
 	/**
-	 * Method that install selected languages in the Languages View ov the installer
+	 * Method that installs in Joomla! the selected languages in the Languages View of the installer
 	 *
 	 * @param $lids array list of the update_id value of the languages to install
 	 *
