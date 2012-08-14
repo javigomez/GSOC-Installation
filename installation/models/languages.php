@@ -68,7 +68,7 @@ class JInstallationModelLanguages extends JModelLegacy
 		$query  = $db->getQuery(true);
 
 		// Select the required fields from the updates table
-		$query->select('update_id, name')
+		$query->select('update_id, name, version')
 			->from('#__updates')
 			->order('name');
 
