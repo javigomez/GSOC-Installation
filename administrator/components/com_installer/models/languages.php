@@ -225,6 +225,7 @@ class InstallerModelLanguages extends JModelList
 	{
 		$instance = JTable::getInstance('update');
 		$instance->load($uid);
+		$detailurl = trim($instance->detailsurl);
 
 		return $instance->detailsurl;
 	}
